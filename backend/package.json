@@ -7,7 +7,10 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "seed": "node src/scripts/seedDatabase.js"
+    "seed": "node src/scripts/seedDatabase.js",
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "hotel",
@@ -28,6 +31,9 @@
     "mongoose": "^7.8.6"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^9.5.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.4"
   }
 }
