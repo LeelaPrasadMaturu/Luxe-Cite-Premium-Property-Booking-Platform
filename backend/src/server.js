@@ -1,0 +1,55 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import propertyRoutes from './routes/propertyRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import adminRoutes from './routes/admin.js';
+
+dotenv.config();
+
+// Verify required environment variables
+const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
+}
+
+console.log('Environment check - JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Missing');
+console.log('Environment check - MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Missing');
+
+const app = express();
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+// Middleware
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/properties', propertyRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/admin', adminRoutes);
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vision')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log('CORS enabled for origin:', corsOptions.origin);
+}); 
