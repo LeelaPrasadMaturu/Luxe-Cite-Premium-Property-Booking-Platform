@@ -19,8 +19,8 @@
     }
   ],
   "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "JWT_SECRET": "@jwt_secret",
+    "MONGODB_URI": "mongodb+srv://captain-marvel:L8K6IMUzDlQZw4pC@mern-project-1.qyj0fdm.mongodb.net/luxestay",
+    "JWT_SECRET": "group21",
     "PORT": "5000"
   }
 } 
