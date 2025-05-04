@@ -1,0 +1,54 @@
+name: Backend Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install Dependencies
+      run: |
+        cd backend
+        npm ci
+
+    - name: Run Tests
+      run: |
+        cd backend
+        npm run test:ci -- admin.test.js auth.test.js bookingGet.test.js bookings.test.js
+      env:
+        # Server Configuration
+        PORT: 5000
+        NODE_ENV: test
+
+        # MongoDB Configuration
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+        # JWT Configuration
+        JWT_SECRET: group21
+
+        # Frontend URL (for CORS)
+        FRONTEND_URL: http://localhost:3000
+
+        # Admin Configuration
+        ADMIN_SECRET_KEY: WBD21
+
+        # Redis Configuration
+        REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
+
+        # NextAuth Configuration
+        NEXTAUTH_URL: http://localhost:3000
+        NEXTAUTH_SECRET: group21 
