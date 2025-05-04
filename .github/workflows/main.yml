@@ -25,30 +25,32 @@ jobs:
         cd backend
         npm ci
 
+    - name: Start Backend Server
+      run: |
+        cd backend
+        npm start &
+      env:
+        PORT: 5000
+        NODE_ENV: test
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        JWT_SECRET: group21
+        FRONTEND_URL: http://localhost:3000
+        ADMIN_SECRET_KEY: WBD21
+        REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
+        NEXTAUTH_URL: http://localhost:3000
+        NEXTAUTH_SECRET: group21
+
     - name: Run Tests
       run: |
         cd backend
         npm run test:ci -- admin.test.js auth.test.js bookingGet.test.js bookings.test.js
       env:
-        # Server Configuration
         PORT: 5000
         NODE_ENV: test
-
-        # MongoDB Configuration
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
-
-        # JWT Configuration
         JWT_SECRET: group21
-
-        # Frontend URL (for CORS)
         FRONTEND_URL: http://localhost:3000
-
-        # Admin Configuration
         ADMIN_SECRET_KEY: WBD21
-
-        # Redis Configuration
         REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
-
-        # NextAuth Configuration
         NEXTAUTH_URL: http://localhost:3000
-        NEXTAUTH_SECRET: group21 
+        NEXTAUTH_SECRET: group21
