@@ -300,6 +300,586 @@ const hotels = [
         isBooked: false
       }
     ]
+  },
+  {
+    title: "Riverside Boutique Hotel",
+    description: "Charming boutique hotel overlooking the river with elegant rooms and fine dining.",
+    location: "Amsterdam",
+    price: 420,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "tv", "parking"],
+    maxGuests: 2,
+    rating: 4.6,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Free canal tour with 3-night stay"
+  },
+  {
+    title: "Himalayan Mountain Lodge",
+    description: "Secluded mountain lodge with breathtaking views of the Himalayas and guided trekking tours.",
+    location: "Nepal",
+    price: 380,
+    images: [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "hotTub"],
+    maxGuests: 4,
+    rating: 4.7,
+    hasSpecialOffer: false
+  },
+  {
+    title: "Venetian Palace Suite",
+    description: "Historic palace suite with canal views and authentic Venetian architecture.",
+    location: "Venice",
+    price: 890,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "tv", "parking"],
+    maxGuests: 2,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Gondola ride included with stay"
+  },
+  {
+    title: "Kyoto Traditional Ryokan",
+    description: "Authentic Japanese ryokan with traditional tatami rooms and onsen baths.",
+    location: "Kyoto",
+    price: 450,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "hotTub"],
+    maxGuests: 2,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Traditional tea ceremony included"
+  },
+  {
+    title: "Greek Island Villa",
+    description: "Stunning villa with private pool and panoramic views of the Aegean Sea.",
+    location: "Mykonos",
+    price: 1100,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "ac", "hotTub", "tv"],
+    maxGuests: 6,
+    rating: 4.8,
+    hasSpecialOffer: false
+  },
+  {
+    title: "Barcelona Art Hotel",
+    description: "Artistic hotel in the heart of Barcelona with unique design and rooftop pool.",
+    location: "Barcelona",
+    price: 580,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "pool", "restaurant", "ac", "gym"],
+    maxGuests: 2,
+    rating: 4.7,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Free guided art tour included"
+  },
+  {
+    title: "Moroccan Riad",
+    description: "Traditional Moroccan house with courtyard, plunge pool, and rooftop terrace.",
+    location: "Marrakech",
+    price: 320,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "restaurant", "ac"],
+    maxGuests: 4,
+    rating: 4.6,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Traditional hammam experience included"
+  },
+  {
+    title: "Vienna Opera House Hotel",
+    description: "Elegant hotel near the Vienna State Opera with classical music performances.",
+    location: "Vienna",
+    price: 680,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "tv", "parking"],
+    maxGuests: 2,
+    rating: 4.8,
+    hasSpecialOffer: false
+  },
+  {
+    title: "Rio Beachfront Resort",
+    description: "Luxury resort with direct beach access and stunning views of Copacabana.",
+    location: "Rio de Janeiro",
+    price: 850,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.7,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Samba show tickets included"
+  },
+  {
+    title: "Hanoi Old Quarter Hotel",
+    description: "Boutique hotel in the heart of Hanoi's Old Quarter with authentic Vietnamese charm.",
+    location: "Hanoi",
+    price: 280,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "tv"],
+    maxGuests: 2,
+    rating: 4.5,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Free cooking class included"
+  },
+  {
+    title: "Cairo Pyramid View Hotel",
+    description: "Luxury hotel with direct views of the Great Pyramids and desert tours.",
+    location: "Cairo",
+    price: 720,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Pyramid tour included"
+  },
+  {
+    title: "Seoul Modern Apartment",
+    description: "Contemporary apartment in Gangnam with city views and modern amenities.",
+    location: "Seoul",
+    price: 420,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "ac", "tv", "parking", "gym"],
+    maxGuests: 2,
+    rating: 4.6,
+    hasSpecialOffer: false
+  },
+  {
+    title: "Sydney Harbor View Hotel",
+    description: "Luxury hotel with iconic views of the Sydney Opera House and Harbor Bridge.",
+    location: "Sydney",
+    price: 950,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Harbor cruise included"
+  },
+  {
+    title: "Lisbon Hillside Villa",
+    description: "Charming villa with panoramic views of Lisbon and the Tagus River.",
+    location: "Lisbon",
+    price: 580,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "ac", "tv", "parking"],
+    maxGuests: 6,
+    rating: 4.7,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Fado show tickets included"
+  },
+  {
+    title: "Bangkok Riverside Resort",
+    description: "Luxury resort on the Chao Phraya River with traditional Thai architecture.",
+    location: "Bangkok",
+    price: 650,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "River cruise included"
+  },
+  {
+    title: "Cape Town Mountain Lodge",
+    description: "Luxury lodge with views of Table Mountain and the Atlantic Ocean.",
+    location: "Cape Town",
+    price: 780,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Wine tour included"
+  },
+  {
+    title: "Istanbul Bosphorus Hotel",
+    description: "Historic hotel overlooking the Bosphorus with Ottoman architecture.",
+    location: "Istanbul",
+    price: 720,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Bosphorus cruise included"
+  },
+  {
+    title: "Helsinki Design Hotel",
+    description: "Modern design hotel in the heart of Helsinki with Nordic architecture.",
+    location: "Helsinki",
+    price: 580,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 2,
+    rating: 4.7,
+    hasSpecialOffer: false
+  },
+  {
+    title: "Mexico City Art Hotel",
+    description: "Boutique hotel in the historic center with contemporary Mexican art.",
+    location: "Mexico City",
+    price: 450,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "restaurant", "ac", "gym"],
+    maxGuests: 2,
+    rating: 4.6,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Art gallery tour included"
+  },
+  {
+    title: "Warsaw Palace Hotel",
+    description: "Restored palace hotel in the heart of Warsaw with classical architecture.",
+    location: "Warsaw",
+    price: 680,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "gym"],
+    maxGuests: 4,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Chopin concert tickets included"
+  },
+  {
+    title: "Château de Versailles Suite",
+    description: "Luxurious suite in a restored 17th-century château with private gardens and butler service.",
+    location: "Versailles, France",
+    price: 1200,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym", "butler"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private tour of Palace of Versailles included"
+  },
+  {
+    title: "Alpine Grand Resort",
+    description: "Luxury ski resort with private ski lifts and panoramic mountain views.",
+    location: "Zermatt, Switzerland",
+    price: 1500,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "gym", "skiStorage"],
+    maxGuests: 6,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private ski instructor included"
+  },
+  {
+    title: "Mediterranean Villa Estate",
+    description: "Exclusive villa with private beach access and infinity pool overlooking the Mediterranean.",
+    location: "Portofino, Italy",
+    price: 1400,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "privateBeach"],
+    maxGuests: 8,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private yacht tour included"
+  },
+  {
+    title: "Scottish Highland Castle",
+    description: "Historic castle with modern luxury amenities and private whisky tasting room.",
+    location: "Inverness, Scotland",
+    price: 1300,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "whiskyBar", "library"],
+    maxGuests: 12,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private whisky tasting with master distiller"
+  },
+  {
+    title: "Amsterdam Canal Palace",
+    description: "Restored 17th-century canal house with private boat dock and rooftop terrace.",
+    location: "Amsterdam, Netherlands",
+    price: 1100,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "privateBoat", "rooftopTerrace"],
+    maxGuests: 6,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private canal cruise with dinner"
+  },
+  {
+    title: "Greek Island Mansion",
+    description: "Luxury mansion with private beach and ancient ruins on the property.",
+    location: "Santorini, Greece",
+    price: 1450,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "privateBeach"],
+    maxGuests: 10,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private archaeological tour included"
+  },
+  {
+    title: "Viennese Imperial Suite",
+    description: "Luxury suite in a former imperial palace with private concert hall.",
+    location: "Vienna, Austria",
+    price: 1200,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "concertHall", "butler"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private classical concert included"
+  },
+  {
+    title: "Barcelona Modernist Palace",
+    description: "Restored Modernist palace with rooftop pool and private art collection.",
+    location: "Barcelona, Spain",
+    price: 1300,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "artGallery"],
+    maxGuests: 6,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private Gaudi architecture tour"
+  },
+  {
+    title: "Norwegian Fjord Lodge",
+    description: "Luxury lodge with panoramic fjord views and private sauna.",
+    location: "Bergen, Norway",
+    price: 1400,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "sauna", "fitnessCenter"],
+    maxGuests: 8,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private fjord cruise included"
+  },
+  {
+    title: "Dublin Georgian Mansion",
+    description: "Restored Georgian mansion with private whiskey library and gardens.",
+    location: "Dublin, Ireland",
+    price: 1100,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "whiskeyLibrary", "garden"],
+    maxGuests: 6,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private whiskey tasting with master distiller"
+  },
+  {
+    title: "Prague Castle View Suite",
+    description: "Luxury suite with panoramic views of Prague Castle and private butler.",
+    location: "Prague, Czech Republic",
+    price: 1200,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "butler", "rooftopTerrace"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private castle tour after hours"
+  },
+  {
+    title: "Budapest Thermal Palace",
+    description: "Luxury hotel with private thermal baths and panoramic city views.",
+    location: "Budapest, Hungary",
+    price: 1300,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "thermalBaths", "gym"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private thermal bath experience"
+  },
+  {
+    title: "Edinburgh Royal Residence",
+    description: "Historic residence with private gardens and royal connections.",
+    location: "Edinburgh, Scotland",
+    price: 1400,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "library", "garden"],
+    maxGuests: 8,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private castle tour with historian"
+  },
+  {
+    title: "Copenhagen Design Hotel",
+    description: "Award-winning design hotel with rooftop restaurant and art gallery.",
+    location: "Copenhagen, Denmark",
+    price: 1100,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "artGallery", "rooftopBar"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private design tour of Copenhagen"
+  },
+  {
+    title: "Porto Wine Estate",
+    description: "Luxury estate with private vineyards and wine cellar.",
+    location: "Porto, Portugal",
+    price: 1300,
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "wineCellar", "vineyard"],
+    maxGuests: 6,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private port wine tasting and tour"
+  },
+  {
+    title: "Stockholm Archipelago Villa",
+    description: "Private island villa with panoramic sea views and sauna.",
+    location: "Stockholm, Sweden",
+    price: 1450,
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "sauna", "privateBeach"],
+    maxGuests: 8,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private boat tour of archipelago"
+  },
+  {
+    title: "Athens Acropolis View Suite",
+    description: "Luxury suite with direct views of the Acropolis and private terrace.",
+    location: "Athens, Greece",
+    price: 1200,
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "rooftopPool", "butler"],
+    maxGuests: 4,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private Acropolis tour at sunset"
+  },
+  {
+    title: "Berlin Art Palace",
+    description: "Former palace converted into luxury hotel with contemporary art collection.",
+    location: "Berlin, Germany",
+    price: 1100,
+    images: [
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+    ],
+    amenities: ["wifi", "spa", "restaurant", "ac", "artGallery", "gym"],
+    maxGuests: 4,
+    rating: 4.8,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private art tour with curator"
+  },
+  {
+    title: "Rome Imperial Villa",
+    description: "Luxury villa with ancient Roman ruins and private gardens.",
+    location: "Rome, Italy",
+    price: 1500,
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    ],
+    amenities: ["wifi", "pool", "spa", "restaurant", "ac", "garden", "butler"],
+    maxGuests: 8,
+    rating: 4.9,
+    hasSpecialOffer: true,
+    specialOfferDetails: "Private Vatican tour before opening"
   }
 ];
 
