@@ -20,7 +20,8 @@ export async function GET() {
       );
     }
 
-    const response = await fetch('http://localhost:5000/api/admin/dashboard', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${apiUrl}/api/admin/dashboard`, {
       headers: {
         'Authorization': `Bearer ${session.accessToken}`,
         'Content-Type': 'application/json',

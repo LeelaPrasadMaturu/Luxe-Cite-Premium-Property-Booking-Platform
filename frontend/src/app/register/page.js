@@ -47,7 +47,8 @@ export default function RegisterPage() {
         throw new Error('Please enter a valid email address');
       }
 
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await axios.post(`${apiUrl}/api/auth/register`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },

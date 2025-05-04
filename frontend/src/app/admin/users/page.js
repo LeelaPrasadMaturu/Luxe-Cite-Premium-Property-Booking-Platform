@@ -20,6 +20,7 @@ export default function AdminUsers() {
   });
   const { token, user } = useSelector((state) => state.auth);
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     if (!token || user?.role !== 'ADMIN') {
@@ -31,7 +32,7 @@ export default function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/users', {
+      const response = await axios.get(`${apiUrl}/api/admin/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -67,7 +68,7 @@ export default function AdminUsers() {
 
       console.log('Submitting user data:', userData); // Debug log
 
-      const response = await axios.post('http://localhost:5000/api/auth/register', userData, {
+      const response = await axios.post(`${apiUrl}/api/auth/register`, userData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -98,7 +99,7 @@ export default function AdminUsers() {
     if (!confirm('Are you sure you want to delete this user?')) return;
     
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, {
+      await axios.delete(`${apiUrl}/api/admin/users/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

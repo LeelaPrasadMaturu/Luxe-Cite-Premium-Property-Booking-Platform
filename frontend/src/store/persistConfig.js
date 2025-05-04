@@ -1,12 +1,10 @@
-import storage from 'redux-persist/lib/storage';
-import noopStorage from './noopStorage';
-
-const isServer = typeof window === 'undefined';
+import storage from 'redux-persist/lib/storage/session';
 
 const persistConfig = {
   key: 'root',
-  storage: isServer ? noopStorage : storage,
-  whitelist: ['auth']
+  storage,
+  whitelist: ['auth'],
+  blacklist: ['properties', 'bookings']
 };
 
 export default persistConfig;

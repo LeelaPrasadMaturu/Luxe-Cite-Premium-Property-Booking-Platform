@@ -24,6 +24,7 @@ export default function AdminProperties() {
   });
   const { token, user } = useSelector((state) => state.auth);
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     if (!token || user?.role !== 'ADMIN') {
@@ -35,7 +36,7 @@ export default function AdminProperties() {
 
   const fetchProperties = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/properties/all', {
+      const response = await axios.get(`${apiUrl}/api/properties/all`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -70,7 +71,7 @@ export default function AdminProperties() {
         rating: Number(newProperty.rating)
       };
 
-      const response = await axios.post('http://localhost:5000/api/properties', propertyData, {
+      const response = await axios.post(`${apiUrl}/api/properties`, propertyData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -103,7 +104,7 @@ export default function AdminProperties() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/properties/${id}`, {
+      await axios.delete(`${apiUrl}/api/properties/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

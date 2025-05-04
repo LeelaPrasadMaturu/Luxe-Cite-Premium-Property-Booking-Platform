@@ -44,21 +44,22 @@ export default function AdminDashboard() {
         setLoading(true);
         setError(null);
 
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         // Fetch all required data in parallel
         const [usersResponse, propertiesResponse, bookingsResponse] = await Promise.all([
-          axios.get('http://localhost:5000/api/admin/users', {
+          axios.get(`${apiUrl}/api/admin/users`, {
             headers: {
               'Authorization': `Bearer ${session?.accessToken}`,
               'Content-Type': 'application/json',
             },
           }),
-          axios.get('http://localhost:5000/api/admin/properties', {
+          axios.get(`${apiUrl}/api/admin/properties`, {
             headers: {
               'Authorization': `Bearer ${session?.accessToken}`,
               'Content-Type': 'application/json',
             },
           }),
-          axios.get('http://localhost:5000/api/admin/bookings', {
+          axios.get(`${apiUrl}/api/admin/bookings`, {
             headers: {
               'Authorization': `Bearer ${session?.accessToken}`,
               'Content-Type': 'application/json',
