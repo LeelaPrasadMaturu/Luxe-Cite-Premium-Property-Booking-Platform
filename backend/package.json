@@ -8,9 +8,10 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node src/scripts/seedDatabase.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test": "jest --detectOpenHandles --forceExit",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:ci": "jest --detectOpenHandles --forceExit --ci --coverage"
   },
   "keywords": [
     "hotel",
