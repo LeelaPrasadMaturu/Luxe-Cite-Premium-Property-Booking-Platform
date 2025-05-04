@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   testEnvironment: 'node',
   verbose: true,
   collectCoverage: true,
@@ -15,5 +15,7 @@ module.exports = {
   testMatch: [
     '**/__tests__/**/*.test.js'
   ],
-  setupFiles: ['<rootDir>/__tests__/setup.js']
+  setupFiles: ['<rootDir>/__tests__/setup.js'],
+  transform: {},
+  moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node']
 }; 
