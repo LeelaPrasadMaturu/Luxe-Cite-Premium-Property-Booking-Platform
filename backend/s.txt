@@ -1,0 +1,16 @@
+ this is my docker-compose.yml file in the root folder, from which I can build multiple containers at once, I want to dockerize my project,
+I want you to help me , 
+I have used backend, frontend, mongo database from online atlas, redis from online cloud free tiar,
+
+How many containers would be efficient for me according to my project.
+also setup Dockerfile in both frontend and backend, also put dockerignore files in both, use npm ci in the docker files, 
+
+env variables in backend are
+NODE_ENV
+MONGODB_URI
+JWT_SECRET
+FRONTEND_URL
+ADMIN_SECRET_KEY
+
+
+env variables in frontend are

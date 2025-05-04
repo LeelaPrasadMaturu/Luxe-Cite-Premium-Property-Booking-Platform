@@ -7,7 +7,8 @@ const router = express.Router();
 
 // Cache duration in seconds (1 hour)
 // const CACHE_DURATION = 3600;
-const CACHE_DURATION = 1;
+const CACHE_DURATION = 5;
+// this is in seconds
 
 // Helper function to generate cache key based on query parameters
 const generateCacheKey = (prefix, query) => {
@@ -31,7 +32,7 @@ router.get('/all', async (req, res) => {
       return res.json(JSON.parse(cachedData));
     }
     
-    console.log('Cache MISS: Fetching properties from database');
+    console.log('Cache MISS: Fetching properties from database - Route: GET /api/properties/all');
     const properties = await Property.find();
     
     // Cache the results
@@ -84,7 +85,7 @@ router.get('/search', async (req, res) => {
       return res.json(JSON.parse(cachedData));
     }
     
-    console.log('Cache MISS: Fetching search results from database');
+    console.log('Cache MISS: Fetching search results from database - Route: GET /api/properties/search');
     let query = {};
 
     if (location) {
@@ -174,7 +175,7 @@ router.get('/', async (req, res) => {
       return res.json(JSON.parse(cachedData));
     }
     
-    console.log('Cache MISS: Fetching filtered properties from database');
+    console.log('Cache MISS: Fetching filtered properties from database - Route: GET /api/properties');
     let query = {};
 
     // Location filter (case-insensitive partial match)
@@ -277,7 +278,7 @@ router.get('/:id', async (req, res) => {
       return res.json(JSON.parse(cachedData));
     }
     
-    console.log('Cache MISS: Fetching property details from database');
+    console.log('Cache MISS: Fetching property details from database - Route: GET /api/properties/:id');
     const property = await Property.findById(req.params.id);
     
     if (!property) {
@@ -317,7 +318,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST a new property with cache invalidation
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const property = new Property(req.body);
     const newProperty = await property.save();
@@ -344,7 +345,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT (update) a property with cache invalidation
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
     if (property) {
@@ -380,7 +381,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE a property with cache invalidation
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
     if (property) {
@@ -415,3 +416,6 @@ router.delete('/:id', async (req, res) => {
 });
 
 export default router; 
+
+// post, put, delete has auth middleware check
+// get has no auth middleware check

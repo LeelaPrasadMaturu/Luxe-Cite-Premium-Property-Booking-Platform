@@ -11,10 +11,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    trim: true,
+    lowercase: true,
+    validate: {
+      validator: function(v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      },
+      message: props => `${props.value} is not a valid email address!`
+    }
   },
   password: {
     type: String,
     required: true,
+    maxlength: [72, 'Password cannot be longer than 72 characters']
   },
   bookings: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -24,16 +33,29 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    maxlength: [200, 'Name cannot be longer than 255 characters']
   },
   phone: {
     type: String,
     required: true,
     trim: true,
+    validate: {
+      validator: function(v) {
+        return v.length >= 10;
+      },
+      message: 'Phone number must be at least 10 characters long'
+    }
   },
   role: {
     type: String,
     enum: ['GUEST', 'ADMIN'],
     default: 'GUEST',
+    validate: {
+      validator: function(v) {
+        return ['GUEST', 'ADMIN'].includes(v);
+      },
+      message: 'Role must be either GUEST or ADMIN'
+    }
   },
 }, {
   timestamps: true,
@@ -50,6 +72,14 @@ userSchema.pre('save', async function(next) {
   } catch (error) {
     next(error);
   }
+});
+
+// Add pre-save middleware to check for empty fields
+userSchema.pre('validate', function(next) {
+  if (this.name === '' || this.email === '' || this.phone === '') {
+    next(new Error('Name, email, and phone cannot be empty'));
+  }
+  next();
 });
 
 // Method to compare password
