@@ -1,114 +1,173 @@
-# LuxeStay - Luxury Hotel Booking Platform
+# Hotel Booking Management System
 
-A modern, glassy UI hotel booking platform built with Next.js and Express.js.
+A modern, scalable hotel booking management system built with Next.js, React, Redux, MongoDB Atlas, and Redis caching.
 
-## Features
+## 🚀 Features
 
-- 🏨 Luxury hotel booking system
-- 👥 Multiple user roles (Guests, Hosts, Admins)
-- 🔐 Secure authentication (JWT)
-- 💳 Mock payment system
-- 📱 Responsive design
-- 🌓 Dark/Light mode
-- 🎨 Modern glassy UI
+- **User Management**
+  - User registration and authentication
+  - Role-based access control (Admin, Staff, Customer)
+  - Profile management
 
-## Tech Stack
+- **Hotel Management**
+  - Room inventory management
+  - Room type categorization
+  - Pricing and availability control
+  - Room status tracking
 
-- **Frontend**: Next.js 15, TailwindCSS, Redux Toolkit
-- **Backend**: Express.js, GraphQL, MongoDB
-- **Authentication**: JWT
-- **Deployment**: Docker, Vercel (Frontend), Railway (Backend)
+- **Booking System**
+  - Real-time room availability
+  - Booking creation and management
+  - Payment processing
+  - Booking history
 
-## Prerequisites
+- **Admin Dashboard**
+  - Analytics and reporting
+  - User management
+  - Booking management
+  - System configuration
 
-- Node.js 18+
-- MongoDB
+## 🛠️ Technology Stack
+
+### Frontend
+- **Next.js** - React framework for server-side rendering
+- **React** - UI component library
+- **Redux** - State management
+- **Tailwind CSS** - Utility-first CSS framework
+- **Jest** - Testing framework
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express** - Web framework
+- **MongoDB Atlas** - Cloud database
+- **Redis** - Caching layer
+- **JWT** - Authentication
+- **Swagger** - API documentation
+
+### DevOps
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **GitHub Actions** - CI/CD
+
+## 📦 Project Structure
+
+```
+.
+├── backend/                 # Backend service
+│   ├── src/
+│   │   ├── config/         # Configuration files
+│   │   ├── controllers/    # Route controllers
+│   │   ├── middleware/     # Custom middleware
+│   │   ├── models/         # Database models
+│   │   ├── routes/         # API routes
+│   │   ├── swagger/        # API documentation
+│   │   └── utils/          # Utility functions
+│   └── Dockerfile
+│
+├── frontend/               # Frontend service
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── pages/         # Next.js pages
+│   │   ├── redux/         # Redux store
+│   │   └── styles/        # CSS styles
+│   └── Dockerfile
+│
+└── docker-compose.yml      # Docker orchestration
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Docker and Docker Compose
+- Node.js (v18 or higher)
 - npm or yarn
 
-## Getting Started
+### Environment Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/luxestay.git
-cd luxestay
-```
+1. Create a `.env` file in the root directory:
+```env
+# Backend Environment Variables
+MONGODB_URI=your-mongodb-atlas-uri
+JWT_SECRET=your-secure-jwt-secret-key
+FRONTEND_URL=http://localhost:3000
+ADMIN_SECRET_KEY=your-admin-secret-key
+REDIS_URL=your-redis-cloud-url
 
-2. Install dependencies:
-```bash
-# Install frontend dependencies
-cd frontend
-npm install
-
-# Install backend dependencies
-cd ../backend
-npm install
-```
-
-3. Set up environment variables:
-```bash
-# Frontend (.env.local)
+# Frontend Environment Variables
 NEXT_PUBLIC_API_URL=http://localhost:5000
-
-# Backend (.env)
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret
 ```
 
-4. Start the development servers:
+2. Start the application:
 ```bash
-# Start backend server
+# Build and start containers
+docker-compose up --build
+
+# Access the application
+Frontend: http://localhost:3000
+Backend API: http://localhost:5000
+Swagger Docs: http://localhost:5000/api-docs
+```
+
+## 📚 API Documentation
+
+The API documentation is available at `/api-docs` when running the backend service. It's built using Swagger and provides detailed information about:
+
+- Available endpoints
+- Request/response schemas
+- Authentication requirements
+- Example requests
+
+## 🧪 Testing
+
+```bash
+# Run backend tests
 cd backend
-npm run dev
+npm test
 
-# Start frontend server (in a new terminal)
+# Run frontend tests
 cd frontend
-npm run dev
+npm test
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## 🔒 Security Features
 
-## Project Structure
+- JWT-based authentication
+- Role-based access control
+- Input validation and sanitization
+- Rate limiting
+- CORS protection
+- Secure password hashing
 
-```
-luxestay/
-├── frontend/                 # Next.js frontend application
-│   ├── app/                 # App router pages
-│   ├── components/          # Reusable components
-│   ├── lib/                 # Utility functions
-│   └── store/              # Redux store
-├── backend/                 # Express.js backend application
-│   ├── src/
-│   │   ├── config/        # Configuration files
-│   │   ├── controllers/   # Route controllers
-│   │   ├── models/        # MongoDB models
-│   │   ├── routes/        # API routes
-│   │   └── utils/         # Utility functions
-│   └── graphql/           # GraphQL schema and resolvers
-└── docker/                # Docker configuration
-```
+## 📈 Performance Optimization
 
-## Deployment
+- Redis caching for frequently accessed data
+- MongoDB Atlas for scalable database
+- Next.js server-side rendering
+- Image optimization
+- Code splitting
+- Lazy loading
 
-### Frontend (Vercel)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
-
-### Backend (Railway)
-1. Push your code to GitHub
-2. Connect your repository to Railway
-3. Add environment variables in Railway dashboard
-4. Deploy!
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
+## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- Your Name - Initial work
+
+## 🙏 Acknowledgments
+
+- MongoDB Atlas for database hosting
+- Redis Labs for caching service
+- Next.js team for the amazing framework
+- All contributors and maintainers 

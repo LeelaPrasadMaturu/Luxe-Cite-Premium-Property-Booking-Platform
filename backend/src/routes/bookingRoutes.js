@@ -98,6 +98,10 @@ router.post('/', async (req, res) => {
     const requiredRooms = Math.ceil(guests / property.maxGuests);
     const guestsPerRoom = Math.ceil(guests / requiredRooms);
 
+    // Calculate total price on backend for security and consistency
+    const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+    const calculatedTotalPrice = property.price * nights * requiredRooms;
+
     // Check if property is available for the selected dates
     const isAvailable = await Booking.checkAvailability(propertyId, checkInDate, checkOutDate);
     if (!isAvailable) {
@@ -115,7 +119,7 @@ router.post('/', async (req, res) => {
       guests,
       numberOfRooms: requiredRooms,
       guestsPerRoom,
-      totalPrice: totalPrice * requiredRooms, // Adjust total price for multiple rooms
+      totalPrice: calculatedTotalPrice, // Use backend-calculated total price
       status: 'confirmed' // Set initial status as confirmed
     });
 

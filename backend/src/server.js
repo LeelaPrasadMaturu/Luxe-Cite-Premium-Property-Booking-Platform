@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
@@ -9,6 +8,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/admin.js';
+import connectDB from './DB.js';
 
 dotenv.config();
 
@@ -52,15 +52,17 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vision')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-  console.log('CORS enabled for origin:', corsOptions.origin);
-  console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
-}); 
+// Connect to MongoDB and start server
+connectDB()
+  .then(() => {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server is running on port http://localhost:${PORT}`);
+      console.log('CORS enabled for origin:', corsOptions.origin);
+      console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
+    });
+  })
+  .catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }); 

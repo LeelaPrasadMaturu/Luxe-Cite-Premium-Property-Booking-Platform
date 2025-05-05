@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:5000
-    depends_on:
-      - backend
-
   backend:
     build:
       context: ./backend
@@ -19,18 +8,49 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/luxestay
-      - JWT_SECRET=your_jwt_secret_key
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - ADMIN_SECRET_KEY=${ADMIN_SECRET_KEY}
+      - REDIS_URL=${REDIS_URL}
+    env_file:
+      - ./backend/.env
     depends_on:
-      - mongodb
+      - frontend
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  mongodb:
-    image: mongo:latest
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    env_file:
+      - ./frontend/.env
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   mongodb_data: 
