@@ -74,20 +74,19 @@ export default function AdminDashboard() {
 
         // Calculate total revenue from confirmed bookings
         const totalRevenue = bookings
-          .filter(booking => booking.status === 'CONFIRMED')
-          .reduce((sum, booking) => sum + (booking.totalAmount || 0), 0);
+          .filter(booking => booking.status === 'confirmed')
+          .reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
 
-        // Get recent bookings (last 5)
-        const recentBookings = bookings
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 5);
+        // Sort all bookings by date
+        const allBookings = bookings
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
         setStats({
           totalUsers: users.length,
           totalProperties: properties.length,
-          totalBookings: bookings.filter(b => b.status === 'CONFIRMED').length,
+          totalBookings: bookings.filter(b => b.status === 'confirmed').length,
           totalRevenue,
-          recentBookings
+          recentBookings: allBookings // Now contains all bookings, sorted by date
         });
 
       } catch (err) {
@@ -319,8 +318,8 @@ export default function AdminDashboard() {
         <div className="mt-8">
           <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Recent Bookings</h3>
-              <p className="mt-1 text-sm text-gray-500">Latest booking activities in your properties.</p>
+              <h3 className="text-lg leading-6 font-medium text-gray-900">All Bookings</h3>
+              <p className="mt-1 text-sm text-gray-500">Complete list of booking activities in your properties.</p>
             </div>
             <div className="divide-y divide-gray-200">
               {stats.recentBookings.map((booking) => (
@@ -337,12 +336,23 @@ export default function AdminDashboard() {
                         <div className="text-sm text-gray-500">
                           Booked {booking.property.title}
                         </div>
+                        <div className="text-sm text-gray-500">
+                          Check-in: {new Date(booking.checkIn).toLocaleDateString()} - 
+                          Check-out: {new Date(booking.checkOut).toLocaleDateString()}
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center text-sm text-gray-500">
                         <FiClock className="h-4 w-4 mr-1" />
                         {new Date(booking.createdAt).toLocaleDateString()}
+                      </div>
+                      <div className={`text-sm font-medium ${
+                        booking.status === 'cancelled' 
+                          ? 'text-red-600'
+                          : 'text-green-600'
+                      }`}>
+                        ${booking.totalPrice}
                       </div>
                       <div className={`px-2 py-1 text-xs font-medium rounded-full ${
                         booking.status === 'confirmed' 
