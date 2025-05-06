@@ -1,7 +1,7 @@
-import express from 'express';
-import Property from '../models/Property.js';
-import auth from '../middleware/auth.js';
-import redisClient from '../config/redis.js';
+import express from "express";
+import Property from "../models/Property.js";
+import auth from "../middleware/auth.js";
+import redisClient from "../config/redis.js";
 
 const router = express.Router();
 
@@ -14,53 +14,55 @@ const CACHE_DURATION = 5;
 const generateCacheKey = (prefix, query) => {
   const queryString = Object.keys(query)
     .sort()
-    .map(key => `${key}=${query[key]}`)
-    .join('&');
-  return `${prefix}:${queryString || 'all'}`;
+    .map((key) => `${key}=${query[key]}`)
+    .join("&");
+  return `${prefix}:${queryString || "all"}`;
 };
 
 // Get all properties with Redis caching
-router.get('/all', async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
-    const cacheKey = 'properties:all';
-    
+    const cacheKey = "properties:all";
+
     // Try to get data from Redis cache
     const cachedData = await redisClient.get(cacheKey);
-    
+
     if (cachedData) {
-      console.log('Cache HIT: Retrieved properties from Redis cache');
+      console.log("Cache HIT: Retrieved properties from Redis cache");
       return res.json(JSON.parse(cachedData));
     }
-    
-    console.log('Cache MISS: Fetching properties from database - Route: GET /api/properties/all');
+
+    console.log(
+      "Cache MISS: Fetching properties from database - Route: GET /api/properties/all"
+    );
     const properties = await Property.find();
-    
+
     // Cache the results
     await redisClient.setEx(
       cacheKey,
       CACHE_DURATION,
       JSON.stringify({
         success: true,
-        properties: properties
+        properties: properties,
       })
     );
-    
+
     res.json({
       success: true,
-      properties: properties
+      properties: properties,
     });
   } catch (error) {
-    console.error('Error fetching properties:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error fetching properties',
-      error: error.message 
+    console.error("Error fetching properties:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching properties",
+      error: error.message,
     });
   }
 });
 
 // Search properties with filters and Redis caching
-router.get('/search', async (req, res) => {
+router.get("/search", async (req, res) => {
   try {
     const {
       location,
@@ -71,25 +73,27 @@ router.get('/search', async (req, res) => {
       amenities,
       specialOffers,
       checkIn,
-      checkOut
+      checkOut,
     } = req.query;
-    
+
     // Generate cache key based on search parameters
-    const cacheKey = generateCacheKey('properties:search', req.query);
-    
+    const cacheKey = generateCacheKey("properties:search", req.query);
+
     // Try to get data from Redis cache
     const cachedData = await redisClient.get(cacheKey);
-    
+
     if (cachedData) {
-      console.log('Cache HIT: Retrieved search results from Redis cache');
+      console.log("Cache HIT: Retrieved search results from Redis cache");
       return res.json(JSON.parse(cachedData));
     }
-    
-    console.log('Cache MISS: Fetching search results from database - Route: GET /api/properties/search');
+
+    console.log(
+      "Cache MISS: Fetching search results from database - Route: GET /api/properties/search"
+    );
     let query = {};
 
     if (location) {
-      query.location = { $regex: location, $options: 'i' };
+      query.location = { $regex: location, $options: "i" };
     }
 
     if (minPrice || maxPrice) {
@@ -107,11 +111,11 @@ router.get('/search', async (req, res) => {
     }
 
     if (amenities) {
-      const amenityList = amenities.split(',');
+      const amenityList = amenities.split(",");
       query.amenities = { $all: amenityList };
     }
 
-    if (specialOffers === 'true') {
+    if (specialOffers === "true") {
       query.hasSpecialOffer = true;
     }
 
@@ -120,37 +124,33 @@ router.get('/search', async (req, res) => {
         $not: {
           $elemMatch: {
             startDate: { $lte: new Date(checkOut) },
-            endDate: { $gte: new Date(checkIn) }
-          }
-        }
+            endDate: { $gte: new Date(checkIn) },
+          },
+        },
       };
     }
 
     const properties = await Property.find(query);
     const response = {
       success: true,
-      properties: properties
+      properties: properties,
     };
 
     // Cache the results
-    await redisClient.setEx(
-      cacheKey,
-      CACHE_DURATION,
-      JSON.stringify(response)
-    );
+    await redisClient.setEx(cacheKey, CACHE_DURATION, JSON.stringify(response));
 
     res.json(response);
   } catch (error) {
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error searching properties',
-      error: error.message 
+    res.status(500).json({
+      success: false,
+      message: "Error searching properties",
+      error: error.message,
     });
   }
 });
 
 // GET all properties with filters and Redis caching
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const {
       location,
@@ -161,28 +161,30 @@ router.get('/', async (req, res) => {
       maxPrice,
       rating,
       amenities,
-      specialOffers
+      specialOffers,
     } = req.query;
 
     // Generate cache key based on query parameters
-    const cacheKey = generateCacheKey('properties:filtered', req.query);
-    
+    const cacheKey = generateCacheKey("properties:filtered", req.query);
+
     // Try to get data from Redis cache
     const cachedData = await redisClient.get(cacheKey);
-    
+
     if (cachedData) {
-      console.log('Cache HIT: Retrieved filtered properties from Redis cache');
+      console.log("Cache HIT: Retrieved filtered properties from Redis cache");
       return res.json(JSON.parse(cachedData));
     }
-    
-    console.log('Cache MISS: Fetching filtered properties from database - Route: GET /api/properties');
+
+    console.log(
+      "Cache MISS: Fetching filtered properties from database - Route: GET /api/properties"
+    );
     let query = {};
 
     // Location filter (case-insensitive partial match)
     if (location) {
       query.$or = [
-        { location: { $regex: location, $options: 'i' } },
-        { title: { $regex: location, $options: 'i' } }
+        { location: { $regex: location, $options: "i" } },
+        { title: { $regex: location, $options: "i" } },
       ];
     }
 
@@ -205,12 +207,12 @@ router.get('/', async (req, res) => {
 
     // Amenities filter
     if (amenities) {
-      const amenityList = amenities.split(',');
+      const amenityList = amenities.split(",");
       query.amenities = { $all: amenityList };
     }
 
     // Special offers filter
-    if (specialOffers === 'true') {
+    if (specialOffers === "true") {
       query.hasSpecialOffer = true;
     }
 
@@ -218,12 +220,12 @@ router.get('/', async (req, res) => {
     if (checkIn && checkOut) {
       const startDate = new Date(checkIn);
       const endDate = new Date(checkOut);
-      
+
       // Ensure check-out is after check-in
       if (endDate <= startDate) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           success: false,
-          message: 'Check-out date must be after check-in date' 
+          message: "Check-out date must be after check-in date",
         });
       }
 
@@ -232,190 +234,194 @@ router.get('/', async (req, res) => {
           $elemMatch: {
             startDate: { $lte: endDate },
             endDate: { $gte: startDate },
-            isBooked: true
-          }
-        }
+            isBooked: true,
+          },
+        },
       };
     }
 
-    const properties = await Property.find(query)
-      .sort({ rating: -1, price: 1 });
+    const properties = await Property.find(query).sort({
+      rating: -1,
+      price: 1,
+    });
 
     const response = {
       success: true,
       properties: properties,
-      message: location ? `Showing results for "${location}"` : 'All properties'
+      message: location
+        ? `Showing results for "${location}"`
+        : "All properties",
     };
 
     // Cache the results
-    await redisClient.setEx(
-      cacheKey,
-      CACHE_DURATION,
-      JSON.stringify(response)
-    );
+    await redisClient.setEx(cacheKey, CACHE_DURATION, JSON.stringify(response));
 
     return res.json(response);
   } catch (error) {
-    console.error('Error fetching properties:', error);
-    return res.status(500).json({ 
+    console.error("Error fetching properties:", error);
+    return res.status(500).json({
       success: false,
-      message: 'Error fetching properties',
-      error: error.message 
+      message: "Error fetching properties",
+      error: error.message,
     });
   }
 });
 
 // GET a single property by ID with Redis caching
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const cacheKey = `property:${req.params.id}`;
-    
+
     // Try to get data from Redis cache
     const cachedData = await redisClient.get(cacheKey);
-    
+
     if (cachedData) {
-      console.log('Cache HIT: Retrieved property details from Redis cache');
+      console.log("Cache HIT: Retrieved property details from Redis cache");
       return res.json(JSON.parse(cachedData));
     }
-    
-    console.log('Cache MISS: Fetching property details from database - Route: GET /api/properties/:id');
+
+    console.log(
+      "Cache MISS: Fetching property details from database - Route: GET /api/properties/:id"
+    );
     const property = await Property.findById(req.params.id);
-    
+
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: 'Property not found'
+        message: "Property not found",
       });
     }
 
     const response = {
       success: true,
       data: property,
-      message: 'Property details retrieved successfully'
+      message: "Property details retrieved successfully",
     };
 
     // Cache the results
-    await redisClient.setEx(
-      cacheKey,
-      CACHE_DURATION,
-      JSON.stringify(response)
-    );
+    await redisClient.setEx(cacheKey, CACHE_DURATION, JSON.stringify(response));
 
     return res.json(response);
   } catch (error) {
-    if (error.name === 'CastError') {
+    if (error.name === "CastError") {
       return res.status(400).json({
         success: false,
-        message: 'Invalid property ID format'
+        message: "Invalid property ID format",
       });
     }
     return res.status(500).json({
       success: false,
-      message: 'Error fetching property details',
-      error: error.message
+      message: "Error fetching property details",
+      error: error.message,
     });
   }
 });
 
 // POST a new property with cache invalidation
-router.post('/', auth, async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const property = new Property(req.body);
     const newProperty = await property.save();
-    
+
     // Invalidate relevant caches
     await Promise.all([
-      redisClient.del('properties:all'),
-      redisClient.del('properties:search:*')
+      redisClient.del("properties:all"),
+      redisClient.del("properties:search:*"),
     ]);
-    
-    console.log('Cache INVALIDATED: Cleared property caches after new property creation');
-    
+
+    console.log(
+      "Cache INVALIDATED: Cleared property caches after new property creation"
+    );
+
     res.status(201).json({
       success: true,
-      property: newProperty
+      property: newProperty,
     });
   } catch (error) {
-    res.status(400).json({ 
+    res.status(400).json({
       success: false,
-      message: 'Error creating property',
-      error: error.message 
+      message: "Error creating property",
+      error: error.message,
     });
   }
 });
 
 // PUT (update) a property with cache invalidation
-router.put('/:id', auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
     if (property) {
       Object.assign(property, req.body);
       const updatedProperty = await property.save();
-      
+
       // Invalidate relevant caches
       await Promise.all([
-        redisClient.del('properties:all'),
-        redisClient.del('properties:search:*'),
-        redisClient.del(`property:${req.params.id}`)
+        redisClient.del("properties:all"),
+        redisClient.del("properties:search:*"),
+        redisClient.del(`property:${req.params.id}`),
       ]);
-      
-      console.log('Cache INVALIDATED: Cleared property caches after property update');
-      
+
+      console.log(
+        "Cache INVALIDATED: Cleared property caches after property update"
+      );
+
       res.json({
         success: true,
-        property: updatedProperty
+        property: updatedProperty,
       });
     } else {
-      res.status(404).json({ 
+      res.status(404).json({
         success: false,
-        message: 'Property not found' 
+        message: "Property not found",
       });
     }
   } catch (error) {
-    res.status(400).json({ 
+    res.status(400).json({
       success: false,
-      message: 'Error updating property',
-      error: error.message 
+      message: "Error updating property",
+      error: error.message,
     });
   }
 });
 
 // DELETE a property with cache invalidation
-router.delete('/:id', auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
     if (property) {
       await property.deleteOne();
-      
+
       // Invalidate relevant caches
       await Promise.all([
-        redisClient.del('properties:all'),
-        redisClient.del('properties:search:*'),
-        redisClient.del(`property:${req.params.id}`)
+        redisClient.del("properties:all"),
+        redisClient.del("properties:search:*"),
+        redisClient.del(`property:${req.params.id}`),
       ]);
-      
-      console.log('Cache INVALIDATED: Cleared property caches after property deletion');
-      
-      res.json({ 
+
+      console.log(
+        "Cache INVALIDATED: Cleared property caches after property deletion"
+      );
+
+      res.json({
         success: true,
-        message: 'Property deleted' 
+        message: "Property deleted",
       });
     } else {
-      res.status(404).json({ 
+      res.status(404).json({
         success: false,
-        message: 'Property not found' 
+        message: "Property not found",
       });
     }
   } catch (error) {
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'Error deleting property',
-      error: error.message 
+      message: "Error deleting property",
+      error: error.message,
     });
   }
 });
 
-export default router; 
+export default router;
 
 // post, put, delete has auth middleware check
 // get has no auth middleware check

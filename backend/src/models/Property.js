@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const propertySchema = new mongoose.Schema({
   title: {
@@ -17,13 +17,17 @@ const propertySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  images: [{
-    type: String,
-    required: true,
-  }],
-  amenities: [{
-    type: String,
-  }],
+  images: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  amenities: [
+    {
+      type: String,
+    },
+  ],
   maxGuests: {
     type: Number,
     required: true,
@@ -41,42 +45,47 @@ const propertySchema = new mongoose.Schema({
   specialOfferDetails: {
     type: String,
   },
-  availability: [{
-    startDate: Date,
-    endDate: Date,
-    isBooked: {
-      type: Boolean,
-      default: false,
-    }
-  }],
-  reviews: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+  availability: [
+    {
+      startDate: Date,
+      endDate: Date,
+      isBooked: {
+        type: Boolean,
+        default: false,
+      },
     },
-    rating: {
-      type: Number,
-      required: true,
-      min: 1,
-      max: 5,
+  ],
+  reviews: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5,
+      },
+      comment: String,
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
-    comment: String,
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    }
-  }],
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 // Create text indexes for search
-propertySchema.index({ 
-  title: 'text', 
-  location: 'text', 
-  description: 'text' 
+propertySchema.index({
+  title: "text",
+  location: "text",
+  description: "text",
 });
 
-export default mongoose.model('Property', propertySchema); 
+export default mongoose.model("Property", propertySchema);
+//leela
