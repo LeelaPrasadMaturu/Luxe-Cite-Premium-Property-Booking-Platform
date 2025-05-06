@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "cross-env NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=production next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.9.5",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.9.0",
+    "cross-env": "^7.0.3",
     "framer-motion": "^11.0.5",
     "graphql": "^16.8.1",
     "next": "^14.0.4",

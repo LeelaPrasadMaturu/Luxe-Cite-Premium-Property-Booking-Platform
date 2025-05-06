@@ -1,64 +1,43 @@
-# Base image for dependencies
-FROM node:18-alpine AS deps
-
-# Set working directory
+# Frontend Dockerfile
+FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm ci
 
-# Builder stage
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
+# Copy source code
 COPY . .
 
-# Set build environment
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_ENV production
-
-# Build application
+# Build the application
 RUN npm run build
 
-# Production stage
+# Production image
 FROM node:18-alpine AS runner
-
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV PORT 3000
-ENV NEXT_PUBLIC_API_URL http://localhost:5000
-ENV NEXTAUTH_URL http://localhost:3000
-ENV NEXTAUTH_SECRET group21
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV NODE_OPTIONS="--max-old-space-size=512"
+ENV NEXT_PUBLIC_API_URL=http://localhost:5000
+ENV NEXTAUTH_URL=http://localhost:3000
+ENV NEXTAUTH_SECRET=group21
 
-# Create non-root user
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-
-# Copy necessary files
+# Copy necessary files from builder
+COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
-# Set permissions
-RUN chown -R nextjs:nodejs /app
-
-# Switch to non-root user
-USER nextjs
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
 # Expose port
 EXPOSE ${PORT}
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=60s --start-period=5s --retries=5 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT} || exit 1
 
 # Start the application
