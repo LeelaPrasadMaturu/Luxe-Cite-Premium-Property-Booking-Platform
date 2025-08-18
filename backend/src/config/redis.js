@@ -1,4 +1,4 @@
-import { createClient } from 'redis';
+import { createClient } from "redis";
 
 // const client = createClient({
 //     username: 'default',
@@ -19,39 +19,40 @@ import { createClient } from 'redis';
 
 // Create a Redis client with authentication and connection details
 const client = createClient({
-    username: 'default',
-    password: 'j8iLpU841ugKvNc9AlchkDRXWO01QMw3',
-    socket: {
-        host: 'redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com',
-        port: 16092,
-        reconnectStrategy: (retries) => Math.min(retries * 50, 2000) // Reconnection strategy
-    }
+  username: "default",
+  password: "8m5j2kngKvQD3M8zTYrLNalfrlEoZ8m4",
+  socket: {
+    host: "redis-15009.c305.ap-south-1-1.ec2.redns.redis-cloud.com",
+    port: 15009,
+    reconnectStrategy: (retries) => Math.min(retries * 50, 2000), // Reconnection strategy
+  },
 });
 
 // Handle client events
-client.on('error', (err) => console.error('Redis Client Error:', err));
-client.on('connect', () => console.log('Connected to Redis Cloud successfully'));
+client.on("error", (err) => console.error("Redis Client Error:", err));
+client.on("connect", () =>
+  console.log("Connected to Redis Cloud successfully")
+);
 
 await client.connect();
 
 // Perform Redis operations without closing the connection
 async function handleRedisOperations() {
-    try {
-        // Verify connection
-        const pingResponse = await client.ping();
-        console.log(`Ping response: ${pingResponse}`);
+  try {
+    // Verify connection
+    const pingResponse = await client.ping();
+    console.log(`Ping response: ${pingResponse}`);
 
-        // Set key-value pair
-        await client.set('foo', 'bar');
-        console.log('Key "foo" set successfully');
+    // Set key-value pair
+    await client.set("foo", "bar");
+    console.log('Key "foo" set successfully');
 
-        // Retrieve stored value
-        const result = await client.get('foo');
-        console.log(`Retrieved value: ${result}`);
-
-    } catch (error) {
-        console.error('Error interacting with Redis:', error);
-    }
+    // Retrieve stored value
+    const result = await client.get("foo");
+    console.log(`Retrieved value: ${result}`);
+  } catch (error) {
+    console.error("Error interacting with Redis:", error);
+  }
 }
 
 handleRedisOperations();

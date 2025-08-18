@@ -2,55 +2,55 @@ name: Backend Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
 
-    - name: Install Dependencies
-      run: |
-        cd backend
-        npm ci
+      - name: Install Dependencies
+        run: |
+          cd backend
+          npm ci
 
-    - name: Start Backend Server
-      run: |
-        cd backend
-        npm start &
-      env:
-        PORT: 5000
-        NODE_ENV: test
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        JWT_SECRET: group21
-        FRONTEND_URL: http://localhost:3000
-        ADMIN_SECRET_KEY: WBD21
-        REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
-        NEXTAUTH_URL: http://localhost:3000
-        NEXTAUTH_SECRET: group21
+      - name: Start Backend Server
+        run: |
+          cd backend
+          npm start &
+        env:
+          PORT: 5000
+          NODE_ENV: test
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          JWT_SECRET: group21
+          FRONTEND_URL: http://localhost:3000
+          ADMIN_SECRET_KEY: WBD21
+          REDIS_URL: redis-15009.c305.ap-south-1-1.ec2.redns.redis-cloud.com:15009
+          NEXTAUTH_URL: http://localhost:3000
+          NEXTAUTH_SECRET: group21
 
-    - name: Run Tests
-      run: |
-        cd backend
-        npm run test:ci -- admin.test.js auth.test.js bookingGet.test.js bookings.test.js
-      env:
-        PORT: 5000
-        NODE_ENV: test
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        JWT_SECRET: group21
-        FRONTEND_URL: http://localhost:3000
-        ADMIN_SECRET_KEY: WBD21
-        REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
-        NEXTAUTH_URL: http://localhost:3000
-        NEXTAUTH_SECRET: group21
+      - name: Run Tests
+        run: |
+          cd backend
+          npm run test:ci -- admin.test.js auth.test.js bookingGet.test.js bookings.test.js
+        env:
+          PORT: 5000
+          NODE_ENV: test
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          JWT_SECRET: group21
+          FRONTEND_URL: http://localhost:3000
+          ADMIN_SECRET_KEY: WBD21
+          REDIS_URL: redis-16092.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:16092
+          NEXTAUTH_URL: http://localhost:3000
+          NEXTAUTH_SECRET: group21
