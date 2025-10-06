@@ -3,8 +3,258 @@ import Booking from '../models/Booking.js';
 import Property from '../models/Property.js';
 import auth from '../middleware/auth.js';
 import mongoose from 'mongoose';
+import redisClient from '../config/redis.js';
+import { 
+  createBookingLock, 
+  checkBookingLock, 
+  promoteLockToBooking, 
+  releaseBookingLock,
+  getAllActiveLocks,
+  cleanupExpiredLocks 
+} from '../services/bookingLockService.js';
 
 const router = express.Router();
+
+// Public: Get booked date intervals for a property
+router.get('/availability/:propertyId', async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(400).json({ success: false, message: 'Invalid property ID format' });
+    }
+
+    const bookings = await Booking.find({
+      property: propertyId,
+      status: { $ne: 'cancelled' }
+    }).select('checkIn checkOut');
+
+    const intervals = bookings.map(b => ({
+      start: b.checkIn,
+      end: b.checkOut,
+    }));
+
+    return res.json({ success: true, intervals });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error fetching availability', error: error.message });
+  }
+});
+
+// Create booking lock (start booking process)
+router.post('/lock', async (req, res) => {
+  try {
+    const { propertyId, checkIn, checkOut } = req.body;
+    const userId = req.user.id;
+
+    // Validate input
+    if (!propertyId || !checkIn || !checkOut) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields: propertyId, checkIn, checkOut'
+      });
+    }
+
+    // Validate dates
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    
+    if (checkOutDate <= checkInDate) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Check-out date must be after check-in date' 
+      });
+    }
+
+    if (checkInDate < new Date()) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Check-in date cannot be in the past' 
+      });
+    }
+
+    // Check if property exists
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'Property not found' 
+      });
+    }
+
+    // Check for existing confirmed bookings (not just locks)
+    const isAvailable = await Booking.checkAvailability(propertyId, checkInDate, checkOutDate);
+    if (!isAvailable) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Property is not available for the selected dates' 
+      });
+    }
+
+    // Create booking lock
+    const lockResult = await createBookingLock(propertyId, checkIn, checkOut, userId);
+    
+    if (!lockResult.success) {
+      return res.status(409).json({
+        success: false,
+        message: lockResult.message,
+        lockInfo: lockResult.lockInfo
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Booking lock created successfully',
+      lockKey: lockResult.lockKey,
+      expiresIn: lockResult.expiresIn,
+      lockData: lockResult.lockData
+    });
+  } catch (error) {
+    console.error('Error creating booking lock:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error creating booking lock',
+      error: error.message
+    });
+  }
+});
+
+// Confirm booking (promote lock to booking)
+router.post('/confirm', async (req, res) => {
+  try {
+    const { lockKey, guests, totalPrice } = req.body;
+    const userId = req.user.id;
+
+    if (!lockKey || !guests || !totalPrice) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields: lockKey, guests, totalPrice'
+      });
+    }
+
+    // Extract property and dates from lock key
+    const lockKeyParts = lockKey.split(':');
+    if (lockKeyParts.length !== 4 || lockKeyParts[0] !== 'booking_lock') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid lock key format'
+      });
+    }
+
+    const [, propertyId, checkIn, checkOut] = lockKeyParts;
+    
+    // Get property for price calculation
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: 'Property not found'
+      });
+    }
+
+    // Calculate required rooms
+    const requiredRooms = Math.ceil(guests / property.maxGuests);
+    const guestsPerRoom = Math.ceil(guests / requiredRooms);
+
+    const bookingData = {
+      user: userId,
+      property: propertyId,
+      checkIn: new Date(checkIn),
+      checkOut: new Date(checkOut),
+      guests,
+      numberOfRooms: requiredRooms,
+      guestsPerRoom,
+      totalPrice,
+      status: 'confirmed'
+    };
+
+    // Promote lock to booking
+    const result = await promoteLockToBooking(lockKey, bookingData);
+    
+    res.status(201).json({
+      success: true,
+      message: 'Booking confirmed successfully',
+      booking: result.booking
+    });
+  } catch (error) {
+    console.error('Error confirming booking:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error confirming booking'
+    });
+  }
+});
+
+// Release booking lock
+router.delete('/lock/:lockKey', async (req, res) => {
+  try {
+    const { lockKey } = req.params;
+    const userId = req.user.id;
+
+    // Verify lock belongs to user
+    const lockData = await redisClient.get(lockKey);
+    if (lockData) {
+      const lock = JSON.parse(lockData);
+      if (lock.userId !== userId) {
+        return res.status(403).json({
+          success: false,
+          message: 'Not authorized to release this lock'
+        });
+      }
+    }
+
+    const result = await releaseBookingLock(lockKey);
+    
+    res.json({
+      success: true,
+      message: 'Booking lock released successfully',
+      released: result.released
+    });
+  } catch (error) {
+    console.error('Error releasing booking lock:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error releasing booking lock'
+    });
+  }
+});
+
+// Get active locks (admin/monitoring)
+router.get('/locks', async (req, res) => {
+  try {
+    const locks = await getAllActiveLocks();
+    
+    res.json({
+      success: true,
+      locks,
+      count: locks.length
+    });
+  } catch (error) {
+    console.error('Error fetching locks:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching active locks'
+    });
+  }
+});
+
+// Cleanup expired locks (admin endpoint)
+router.post('/cleanup-locks', async (req, res) => {
+  try {
+    const result = await cleanupExpiredLocks();
+    
+    res.json({
+      success: true,
+      message: 'Lock cleanup completed',
+      ...result
+    });
+  } catch (error) {
+    console.error('Error cleaning up locks:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error cleaning up expired locks'
+    });
+  }
+});
 
 // Protect all routes
 router.use(auth);

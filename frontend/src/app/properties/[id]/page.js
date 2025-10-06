@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useSession } from 'next-auth/react';
 import BookingConfirmationModal from '@/components/BookingConfirmationModal';
+import BookingErrorModal from '@/components/BookingErrorModal';
 
 // Custom styles for the date picker
 const customStyles = {
@@ -32,10 +33,12 @@ export default function PropertyPage() {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [guests, setGuests] = useState(1);
+  const [bookedIntervals, setBookedIntervals] = useState([]);
   const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [showBookingError, setShowBookingError] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -73,6 +76,26 @@ export default function PropertyPage() {
     fetchProperty();
   }, [id, session]);
 
+  // Fetch booked intervals to disable dates
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      if (!id) return;
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/bookings/availability/${id}`);
+        if (res.data?.success) {
+          const intervals = res.data.intervals.map((iv) => ({
+            start: new Date(iv.start),
+            end: new Date(iv.end),
+          }));
+          setBookedIntervals(intervals);
+        }
+      } catch (e) {
+        // non-blocking
+      }
+    };
+    fetchAvailability();
+  }, [id]);
+
   // Add effect to check authentication status
   useEffect(() => {
     if (status === 'authenticated' && session?.accessToken) {
@@ -102,6 +125,58 @@ export default function PropertyPage() {
     setError(null);
   };
 
+  // Create booking lock
+  const createBookingLock = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bookings/lock`,
+        {
+          propertyId: property._id,
+          checkIn: checkInDate,
+          checkOut: checkOutDate
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${session?.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.data.success) {
+        return response.data.lockKey;
+      }
+    } catch (error) {
+      console.error('Lock creation error:', error);
+      if (error.response?.status === 409) {
+        setError('This property is currently being booked by another user. Please try again in a few minutes.');
+        setShowBookingError(true);
+      } else {
+        setError(error.response?.data?.message || 'Failed to secure booking. Please try again.');
+      }
+      throw error;
+    }
+  };
+
+
+  // Release booking lock
+  const releaseBookingLock = async (lockKey) => {
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bookings/lock/${lockKey}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${session?.accessToken}`
+          }
+        }
+      );
+      setBookingLock(null);
+      setLockExpiry(null);
+    } catch (error) {
+      console.error('Lock release error:', error);
+    }
+  };
+
   const handleBooking = async () => {
     if (status === 'loading') {
       return;
@@ -124,40 +199,22 @@ export default function PropertyPage() {
     }
 
     try {
-      // Calculate required rooms based on property's maxGuests
-      const requiredRooms = Math.ceil(guests / property.maxGuests);
-      const guestsPerRoom = Math.ceil(guests / requiredRooms);
-
-      const bookingData = {
-        propertyId: property._id,
-        checkIn: checkInDate,
-        checkOut: checkOutDate,
-        guests,
-        numberOfRooms: requiredRooms,
-        guestsPerRoom,
-        totalPrice,
-        roomDetails: {
-          totalRooms: requiredRooms,
-          guestsPerRoom,
-          maxGuestsPerRoom: property.maxGuests
-        }
-      };
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/bookings`,
-        bookingData,
-        {
-          headers: {
-            'Authorization': `Bearer ${session?.accessToken}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      setBookingDetails(response.data.booking);
-      setShowConfirmation(true);
+      // Step 1: Create booking lock
+      const lockKey = await createBookingLock();
+      
+      // Step 2: Redirect to payment page
+      const paymentUrl = new URL('/payment', window.location.origin);
+      paymentUrl.searchParams.set('lockKey', lockKey);
+      paymentUrl.searchParams.set('propertyId', property._id);
+      paymentUrl.searchParams.set('checkIn', checkInDate.toISOString());
+      paymentUrl.searchParams.set('checkOut', checkOutDate.toISOString());
+      paymentUrl.searchParams.set('guests', guests.toString());
+      paymentUrl.searchParams.set('totalPrice', totalPrice.toString());
+      
+      router.push(paymentUrl.toString());
+      
     } catch (error) {
-      console.error('Booking error:', error);
+      
       if (error.response?.status === 401) {
         // Store booking data in session storage before redirecting
         sessionStorage.setItem('pendingBooking', JSON.stringify({
@@ -178,10 +235,15 @@ export default function PropertyPage() {
         const currentUrl = `/properties/${id}`;
         router.push(`/login?callbackUrl=${encodeURIComponent(currentUrl)}`);
       } else {
-        setError(error.response?.data?.message || 'Error creating booking. Please try again.');
+        const msg = error.response?.data?.message || 'Error creating booking. Please try again.';
+        setError(msg);
+        if (/not available|unavailable|already booked|currently being booked/i.test(msg)) {
+          setShowBookingError(true);
+        }
       }
     }
   };
+
 
   // Update the useEffect for pending bookings as well
   useEffect(() => {
@@ -331,13 +393,14 @@ export default function PropertyPage() {
                   <label className="text-sm text-gray-600 mb-1">Check-in</label>
                   <DatePicker
                     selected={checkInDate}
-                    onChange={(date) => {+
+                    onChange={(date) => {
                       setCheckInDate(date);
                       setError(null);
                     }}
                     className="w-full p-2 border border-gray-200 rounded text-gray-900 bg-white"
                     placeholderText="Select check-in date"
                     minDate={new Date()}
+                    excludeDateIntervals={bookedIntervals}
                     dateFormat="MMMM d, yyyy"
                   />
                 </div>
@@ -353,6 +416,7 @@ export default function PropertyPage() {
                     className="w-full p-2 border border-gray-200 rounded text-gray-900 bg-white"
                     placeholderText="Select check-out date"
                     minDate={checkInDate || new Date()}
+                    excludeDateIntervals={bookedIntervals}
                     dateFormat="MMMM d, yyyy"
                   />
                 </div>
@@ -451,6 +515,14 @@ export default function PropertyPage() {
             setShowConfirmation(false);
             router.push('/my-bookings');
           }}
+        />
+      )}
+
+      {/* Booking Error Modal */}
+      {showBookingError && (
+        <BookingErrorModal
+          message={error}
+          onClose={() => setShowBookingError(false)}
         />
       )}
     </div>

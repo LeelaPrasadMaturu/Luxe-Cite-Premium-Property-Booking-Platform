@@ -18,13 +18,10 @@ RUN npm run build
 FROM node:18-alpine AS runner
 WORKDIR /app
 
-# Set environment variables
+# Set environment variables (use .env.local file for secrets)
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV NODE_OPTIONS="--max-old-space-size=512"
-ENV NEXT_PUBLIC_API_URL=http://localhost:5000
-ENV NEXTAUTH_URL=http://localhost:3000
-ENV NEXTAUTH_SECRET=group21
 
 # Copy necessary files from builder
 COPY --from=builder /app/next.config.js ./
